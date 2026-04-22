@@ -13,21 +13,22 @@ int main(int ac, char **av, char **env)
 	char *line = NULL; /*buffer where raw user input stored. Set to NULL as getline will handle memory allocation*/
 	size_t len = 0; /*track size of allocated buffer. How much memory set aside. Set to 0 so getline allocates fresh*/
 	ssize_t nread; /*store # of characters actually read*/
-	pid_t child_pid;
-	char *argv[MAX_ARGS];
-	char *start;
-	int j;
-	int i;
+	pid_t child_pid; /*storage of process ID returned by fork*/
+	char *argv[MAX_ARGS]; /*when command is spilt, this is where they end up e.g. ls -la becomes 2 arrays*/
+	char *start; /*pointer used to walk past leading spaces*/
+	int j; /*loop counter, for trimming trailing space*/
+	int i; /*loop counter for filling argv tokens with strtok*/
 
 	(void)ac;
 
-	while (1)
+	while (1) /*infinite loop*/
 	{
+        /* only print prompt if input from real person, only shows ($) if human*/
 		if (isatty(STDIN_FILENO))
 			print_prompt();
 		/*waits for user to type something in and hit enter*/
 		nread = getline(&line, &len, stdin);
-		if (nread == -1)
+		if (nread == -1) /* Exit - Ctrl+D or EOF - print newline, free memory, exit cleanly */
 		{
 			if (isatty(STDIN_FILENO))
 				printf("\n");
@@ -35,11 +36,11 @@ int main(int ac, char **av, char **env)
 			exit(0);
 		}
 
-		if (line[nread - 1] == '\n')
-			line[nread - 1] = '\0';
+		if (line[nread - 1] == '\n') /*remove trailing line \n from input */
+			line[nread - 1] = '\0'; /*string ends here - to clean out the input to terminal friendy*/
 
 		/* 1. Trim trailing spaces */
-		j = 0;
+		j = 0; /*saftefy guard to remove trailing "ls -la   "*/
 		while (line[j] != '\0')
 			j++;
 		j--;
