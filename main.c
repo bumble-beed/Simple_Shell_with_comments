@@ -65,12 +65,12 @@ int main(int ac, char **av, char **env)
 			i++;
 			argv[i] = strtok(NULL, " ");
 		}
-		child_pid = fork();
-		if (child_pid == -1)
+		child_pid = fork(); /* create fork - child process */
+		if (child_pid == -1) /* if fork fails */
 		{
-			perror("Error");
-			free(line);
-			return (1);
+			perror("Error"); /*print error */
+			free(line); /* clean up memory */
+			return (1); /* exit with failure */
 		}
 
 		if (child_pid == 0)
