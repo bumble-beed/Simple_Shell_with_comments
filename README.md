@@ -12,7 +12,7 @@
   * Handling end of file (Ctrl + D) to exit cleanly
   * Running in both interactive and non-interactive mode
   
-  Written by Shirleen Asre and Sean Sabino
+![Shell Workflow](simple_shell_workflow.svg)
   
   ---
   
