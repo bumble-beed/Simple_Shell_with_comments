@@ -11,7 +11,8 @@
 #include <signal.h> /*Signal handling*/
 #include <errno.h> /*Error codes*/
 
-#define MAX_ARGS 64
+#define MAX_ARGS 64 
+/*increase limit to max 65 */
 
 extern char **environ;
 
