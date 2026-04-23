@@ -40,20 +40,20 @@ int main(int ac, char **av, char **env)
 			line[nread - 1] = '\0'; /*string ends here - to clean out the input to terminal friendy*/
 
 		/* 1. Trim trailing spaces */
-		j = 0; /*saftefy guard to remove trailing "ls -la   "*/
-		while (line[j] != '\0')
+		j = 0; /*start at beginning of string "ls -la   "*/
+		while (line[j] != '\0') /* walk to end of string */
 			j++;
-		j--;
-		while (j >= 0 && line[j] == ' ')
+		j--; /*step back to last actual character */
+		while (j >= 0 && line[j] == ' ') /*safety guard - stops it from looping to the beginning, or going into negative */
 		{
-			line[j] = '\0';
-			j--;
+			line[j] = '\0'; /*replace trailing space with end of string */
+			j--; /*move backwards */
 		}
 
 		/* 2. Skip leading spaces */
-		start = line;
-		while (*start == ' ')
-			start++;
+		start = line; /* point start at beginning of string */
+		while (*start == ' ') /* is current character a space */
+			start++; /* move forward past space to next char*/
 
 		/* If the line was only spaces, don't try to execute */
 		if (*start == '\0')
